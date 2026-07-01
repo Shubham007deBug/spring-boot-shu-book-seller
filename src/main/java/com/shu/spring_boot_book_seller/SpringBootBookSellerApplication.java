@@ -31,19 +31,33 @@ public class SpringBootBookSellerApplication {
 
         return args -> {
 
-            if (userRepository.findByUsername("admin").isEmpty()) {
+            System.out.println("========== CommandLineRunner Started ==========");
 
-                User admin = new User();
+            try {
 
-                admin.setName("Administrator");
-                admin.setUsername("admin");
-                admin.setPassword(passwordEncoder.encode("admin123"));
-                admin.setRole(Role.ADMIN);
-                admin.setCreateTime(LocalDateTime.now());
+                if (userRepository.findByUsername("admin").isEmpty()) {
 
-                userRepository.save(admin);
+                    System.out.println("Admin does not exist. Creating...");
 
-                System.out.println("Admin created successfully.");
+                    User admin = new User();
+                    admin.setName("Administrator");
+                    admin.setUsername("admin");
+                    admin.setPassword(passwordEncoder.encode("admin123"));
+                    admin.setRole(Role.ADMIN);
+                    admin.setCreateTime(LocalDateTime.now());
+
+                    userRepository.save(admin);
+
+                    System.out.println("Admin created successfully.");
+
+                } else {
+                    System.out.println("Admin already exists.");
+                }
+
+            } catch (Exception e) {
+
+                System.out.println("Exception while creating admin:");
+                e.printStackTrace();
             }
         };
     }
