@@ -108,7 +108,7 @@ public class SecurityConfig {
 
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
-                "https://book-seller-admin-lib.netlify.app/home"
+                "https://boisterous-duckanoo-cc8bf8.netlify.app"
         ));
 
         configuration.setAllowedMethods(
@@ -116,6 +116,7 @@ public class SecurityConfig {
 
         configuration.setAllowedHeaders(
                 Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
