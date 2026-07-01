@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
@@ -80,13 +81,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/authentication/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/book").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/book").permitAll()
                         .requestMatchers("/api/book").hasRole(Role.ADMIN.name())
                         .requestMatchers("/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
-                        .anyRequest()
-                        .authenticated()
+                        .anyRequest().authenticated()
                 )
+
 
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
@@ -106,16 +108,21 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList(
+        configuration.setAllowedOriginPatterns(List.of(
                 "http://localhost:4200",
                 "https://boisterous-duckanoo-cc8bf8.netlify.app"
         ));
 
-        configuration.setAllowedMethods(
-                Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "OPTIONS"
+        ));
 
-        configuration.setAllowedHeaders(
-                Arrays.asList("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
@@ -125,5 +132,4 @@ public class SecurityConfig {
 
         return source;
     }
-
 }
