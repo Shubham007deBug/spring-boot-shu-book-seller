@@ -23,6 +23,9 @@ public class Book {
     @Column(name="price", nullable = false)
     private Double price;
 
+    @Column(name="author",nullable = true)
+    private String author;
+
     @Column(name="create_Time", nullable = false)
     private LocalDateTime createTime;
 }
