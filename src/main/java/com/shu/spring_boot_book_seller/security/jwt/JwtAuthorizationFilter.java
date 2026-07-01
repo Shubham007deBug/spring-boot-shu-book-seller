@@ -18,7 +18,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException{
-        return request.getRequestURI().startsWith("/api/internal");
+        String uri = request.getRequestURI();
+
+        return uri.startsWith("/api/internal")
+                || uri.startsWith("/api/authentication")
+                || "OPTIONS".equalsIgnoreCase(request.getMethod());
     }
 
     @Override
